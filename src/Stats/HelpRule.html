@@ -1,0 +1,176 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rules Screen Help</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Reports Screen</h1>
+        <p>
+            This is the screen for creating custom reports. <br>
+            Reports have two parts to them:<br>
+            <ul>
+                <li>The <b>name</b> of the report.</li>
+                <li>
+                    The <b>rules</b> that specify what properties a report should contain<br>
+                    based on a property's County, Municipality, Zip Code, Body of Water,<br> 
+                    Condo Name, and/or Category.
+                </li>
+            </ul>
+        <h2>Naming/Adding a Report</h2>
+        <p>
+            Before any rules can be added to a report, the report must be<br> 
+            created itself. To do this.<br>
+            <ol>
+                <li>Click on the text box that says "Report:" to the left of it.</li>
+                <li>
+                    Enter a name for the report here and click the "Add" button below<br> 
+                    the textbox. This will be what the report is called when it is<br> 
+                    generated as a file. For example, if you named a file "Kenosha",<br> 
+                    then something like "KenoshaQ1.csv" will be the file name. Note<br> 
+                    that Q1 stands for Quarter 1; however, it might Q2, Q3, or Q4<br> 
+                    depending on what quarter you are generating the report for.
+                </li>
+                <li>
+                    After clicking the "Add" button, the report's name will appear<br>
+                    in the list directly above the textbox. The report has been added.
+                </li>
+            </ol>
+        
+        <h2>Adding Rules to a Report</h2>
+        <p>
+            Now that the report has been added and named, we can start adding rules<br>
+            to it. But before that, rules should be explained a little further.<br>
+            Each rule in a report essentially describes the contents of the csv report<br> 
+            file. Each rule has two parts: a "where" part and an "equals" part.<br> 
+            The "where" part lets the user select a specific property of an entry (County,<br>
+            Municipality, Zip Code, Body of Water, Condo Name, and Category). The "equals"<br>
+            part tells the program to select only the entries with the selected<br>
+            value. Examples are given under "Example Reports" in order to illustrate<br>
+            how rules can be used to create reports.<br>
+            To add a rule:
+            <ol>
+               <li>
+                   Under the "Reports:" label (the list that you just added a report to)<br> 
+                   Click on the report that you want to add rules to. If there are any<br> 
+                   rules already added to the report, then they will appear in the<br> 
+                   list labeled "Rules in effect:" right below the Reports list.
+               </li>
+               <li>
+                   Now that the report is highlighted, click on the dropdown box labeled<br>
+                   "Where". Once clicked, the dropdown menu will show six possible options:<br>
+                   County, Municipality, Zip Code, Body of Water, Condo Name, and Category.<br>
+                   Click on the desired option.
+               </li>
+               <li>
+                   Once you click on one of the six options, you will notice that the dropdown<br>
+                   menu to the right (the "equals" dropdown menu) has been populated with options.<br>
+                   These are all the values that the program found in the imported CSV file<br>
+                   for the respective "where" option chosen.
+               </li>
+               <li>
+                   Select the desired item from the "equals" dropdown menu. Once selected,<br>
+                   click on the "Add" button directly below the dropdown menu. You will now<br>
+                   see that the rule has been added to the list labeled "Rules in effect:"<br>
+                   Now, when you click the "Generate Reports" button on the main screen,<br>
+                   the report that you just created here will be generated with your added rules
+               </li>
+            </ol>
+            <b>NOTE:</b> If no rules are specified for a report, then every property will be included in the report.
+        <h2>Example Reports</h2>
+        Generate a report called "Kenosha-Single-Family-Condo" which contains all of the single-family<br>
+        and condo properties sold in Kenosha county:<br>
+            Report name: "Kenosha-Single-Family"<br>
+            Rules:<br>
+            Where Category = Condominium<br>
+            where Category = Single-Family<br>
+            Where County = Kenosha<br>
+            <br>
+        Generate a report called "Bloomfield-Brighton-Bristol" which contains all of the<br>
+        properties sold in Bloomfield, Brighton, and Bristol municipalities:<br>
+            Report name: "Bloomfield-Brighton-Bristol"<br>
+            Rules:<br>
+            Where Municipality = Bloomfield<br> 
+            Where Municipality = Brighton<br>
+            Where Municipality = Bristol<br>
+            <br>
+        Generate a report named "Lake Geneva" which contains all of the properties<br>
+        sold on Lake Geneva:<br>
+            Report name: ""<br>
+            Rules:<br>
+            Where Body of Water = Lake Geneva<br>
+            <br>
+        <h2>Deleting a Report</h2>
+            If a report is deleted, then all of the rules contained within that report are<br>
+            also deleted. If you would rather delete some of the rules in a report rather than<br>
+            the entire report, see "Deleting a Rule from a Report" below.
+            <ol>
+                <li>
+                    In the "Reports:" list, click on the report you wish to delete.<br>
+                </li>
+                <li>
+                    Once you have highlighted the report, click on the "delete" button<br>
+                    beneath the "Report:" textfield.
+                </li>
+            </ol>
+        <h2>Deleting a Rule from a Report</h2>
+            If you would like to keep the report itself, but delete some of the rules<br>
+            it contains, then follow these steps:
+            <ol>
+                <li>
+                    In the "Reports:" list, select the report you would like to delete the<br>
+                    rule from.
+                </li>
+                <li>
+                    Once the report has been highlighted, the list labeled "Rules in effect:"<br>
+                    will be populated with all of the rules inside the report.
+                </li>
+                <li>
+                    In the "Rules in effect:" list, click the rule that you wish to delete.
+                </li>
+                <li>
+                    Once the rule is highlighted, click the delete button beneath the<br> 
+                    "Rules in effect:" list.  
+                </li>
+            </ol>
+            <b>Note:</b> Multiple rules can be deleted at one time by selecting multiple rules (Using CNTRL or Shift)<br>
+            and then clicking delete.
+        <h2>Loading a .rule File</h2>
+        <p>
+            To load a file click the browse button the right or enter the<br>
+            absolute pathname into the text field below the "Rule file:"<br>
+            label. After a valid absolute pathname is in the text field, you<br>
+            can press the "Load" button to load all of the reports into memory.<br>
+            The reports will be loaded into the list under "Reports:" while the <br>
+            rules will be loaded into the list under the "Rules in effect"label.<br> 
+            These rules will now be applied when reports are generated.<br>
+        </p>
+        <h2>Saving a .rule File</h2>
+        <p>
+            To load a file click the browse button the right or enter the<br>
+            absolute pathname into the text field below the "Rule file:"<br>
+            label. After a valid absolute pathname is in the text field, you<br>
+            can press the "Save" button to save all of the current Rules in<br>
+            effect to the given file name. Next time the program is used, you<br>
+            can load the new .rule file instead of entering all of the reports<br>
+            and rules manually.<br>
+        </p>
+        <h2>Reports List</h2>
+        <p>
+            This is the list of all of the reports that will be generated.<br>
+            Click on any of the reports to highlight it and see all of the rules<br>
+            that it contains. The rules inside the report will populate the the<br>
+            Rules in Effect List.
+        </p>
+        <h2>Rules in Effect List</h2>
+        <p>
+            This is the list of all of the rules that are currently in effect<br>
+            for the currently highlighted report and will be used to create the<br> 
+            appropriate files when the reports are generated.<br>
+        </p>
+    </body>
+</html>
