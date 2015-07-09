@@ -59,7 +59,7 @@ public class Model {
     public static final int ZIP_CODE = 2;
     public static final int BODY_OF_WATER = 3;
     public static final int CONDO_NAME = 4;
-    public static final int CATEGORY = 5;
+    public static final int PROPERTY_TYPE = 5;
     public static final int NUM_OF_OPTIONS = 6;
     // Variables for reading or writing to config.properties file
     private static final String PROPERTIES_FILE = "config.properties";
@@ -67,8 +67,20 @@ public class Model {
     private Properties prop;
     private OutputStream output;
     private InputStream input;
-    // constants to store properties
+    // variables to store/load properties
     private static String companyProperty; 
+    private static int agencyName;
+    private static int propertyType;
+    private static int daysOnMarket;
+    private static int soldDate;
+    private static int listPrice;
+    private static int soldPrice;
+    private static int municipality;
+    private static int county;
+    private static int zipCode;
+    private static int sellingAgency;
+    private static int bodyOfWater;
+    private static int condominiumName;
     
     /**
      * Adds to the arrays that will populate the "equals" JComboBox.
@@ -168,7 +180,19 @@ public class Model {
         
         // Set default properties    
         prop.setProperty("company", "MyCompany");
-            
+        prop.setProperty("Agency Name", "1");
+        prop.setProperty("Property Type", "6");
+        prop.setProperty("Days on Market", "134");
+        prop.setProperty("Sold Date", "14");
+        prop.setProperty("List Price", "25");
+        prop.setProperty("Sold Price", "42");
+        prop.setProperty("Municipality", "41");
+        prop.setProperty("County", "43");
+        prop.setProperty("Zip Code", "46");
+        prop.setProperty("Selling Agency", "9");
+        prop.setProperty("Body of Water", "66");
+        prop.setProperty("Condominium Name", "58");
+        
         // Save the data
         prop.store(output, null);
     }
@@ -187,6 +211,18 @@ public class Model {
         
         // Load the values in
         companyProperty = prop.getProperty("company");
+        agencyName = Integer.parseInt(prop.getProperty("Agency Name"));
+        propertyType = Integer.parseInt(prop.getProperty("Property Type"));
+        daysOnMarket = Integer.parseInt(prop.getProperty("Days on Market"));
+        soldDate = Integer.parseInt(prop.getProperty("Sold Date"));
+        listPrice = Integer.parseInt(prop.getProperty("List Price"));
+        soldPrice = Integer.parseInt(prop.getProperty("Sold Price"));
+        municipality = Integer.parseInt(prop.getProperty("Municipality"));
+        county = Integer.parseInt(prop.getProperty("County"));
+        zipCode = Integer.parseInt(prop.getProperty("Zip Code"));
+        sellingAgency = Integer.parseInt(prop.getProperty("Selling Agency"));
+        bodyOfWater = Integer.parseInt(prop.getProperty("Body of Water"));
+        condominiumName = Integer.parseInt(prop.getProperty("Condominium Name"));
     }
     
     /**
@@ -229,11 +265,11 @@ public class Model {
 
             // Pass the municipality and county.
             addMunicipalityAndCounty(
-                    splitLine[22].replaceAll("\"", ""),
-                    splitLine[25].replaceAll("\"", ""));
+                    splitLine[municipality].replaceAll("\"", ""),
+                    splitLine[county].replaceAll("\"", ""));
 
             String date = cleanDate(
-                    splitLine[8].replaceAll("\"", ""));
+                    splitLine[soldDate].replaceAll("\"", ""));
 
             // Use mm/yyyy as key.
             if (data.containsKey(date)) {
@@ -245,29 +281,27 @@ public class Model {
             // Reassemble only the relevant data for the entry back into a 
             // string and add it to the ArrayList whose key is the date of
             // the entry.            
-            arr.add(splitLine[1] + "," +                       // Listing Company Name- 0
-                    splitLine[2].replaceAll("\"", "") + "," +  // Listing Company Code- 1
-                    splitLine[6].replaceAll("\"", "") + "," +  // Category            - 2
-                    splitLine[7].replaceAll("\"", "") + "," +  // DOM                 - 3
-                    date + "," +                               // Sold Date           - 4
-                    splitLine[13].replaceAll("\"", "") + "," + // List Price          - 5
-                    splitLine[14].replaceAll("\"", "") + "," + // Sold Price          - 6
-                    splitLine[22].replaceAll("\"", "") + "," + // Municipality        - 7
-                    splitLine[23].replaceAll("\"", "") + "," + // State               - 8
-                    splitLine[25].replaceAll("\"", "") + "," + // County              - 9
-                    splitLine[26].replaceAll("\"", "") + "," + // Zip Code            - 10
-                    splitLine[34] + "," +                      // Selling Company Name- 11
-                    splitLine[48].replaceAll("\"", "") + "," + // Body of Water       - 12
-                    splitLine[68].replaceAll("\"", ""));       // Condo Name          - 13
+            arr.add(splitLine[agencyName] + "," +                         // Listing Company Name- 0
+                    splitLine[propertyType].replaceAll("\"", "") + "," +  // Property Type       - 1
+                    splitLine[daysOnMarket].replaceAll("\"", "") + "," +  // DOM                 - 2
+                    date + "," +                                          // Sold Date           - 3
+                    splitLine[listPrice].replaceAll("\"", "") + "," +     // List Price          - 4
+                    splitLine[soldPrice].replaceAll("\"", "") + "," +     // Sold Price          - 5
+                    splitLine[municipality].replaceAll("\"", "") + "," +  // Municipality        - 6
+                    splitLine[county].replaceAll("\"", "") + "," +        // County              - 7
+                    splitLine[zipCode].replaceAll("\"", "") + "," +       // Zip Code            - 8
+                    splitLine[sellingAgency] + "," +                      // Selling Company Name- 9
+                    splitLine[bodyOfWater].replaceAll("\"", "") + "," +   // Body of Water       - 10
+                    splitLine[condominiumName].replaceAll("\"", ""));     // Condo Name          - 11
             data.put(date, arr);
-
+            
             // Add them to the "equals" dropbox for later use.
-            addToEqualsDropdown(COUNTY, splitLine[25].replaceAll("\"", ""));
-            addToEqualsDropdown(MUNICIPALITY, splitLine[22].replaceAll("\"", ""));
-            addToEqualsDropdown(ZIP_CODE, splitLine[26].replaceAll("\"", ""));
-            addToEqualsDropdown(BODY_OF_WATER, splitLine[48].replaceAll("\"", ""));
-            addToEqualsDropdown(CONDO_NAME, splitLine[68].replaceAll("\"", ""));
-            addToEqualsDropdown(CATEGORY, splitLine[6].replaceAll("\"", ""));
+            addToEqualsDropdown(COUNTY, splitLine[county].replaceAll("\"", ""));
+            addToEqualsDropdown(MUNICIPALITY, splitLine[municipality].replaceAll("\"", ""));
+            addToEqualsDropdown(ZIP_CODE, splitLine[zipCode].replaceAll("\"", ""));
+            addToEqualsDropdown(BODY_OF_WATER, splitLine[bodyOfWater].replaceAll("\"", ""));
+            addToEqualsDropdown(CONDO_NAME, splitLine[condominiumName].replaceAll("\"", ""));
+            addToEqualsDropdown(PROPERTY_TYPE, splitLine[propertyType].replaceAll("\"", ""));
         }
 
         // Sort after all of the data has been entered.
@@ -493,7 +527,7 @@ public class Model {
             case CONDO_NAME:
                 entry = "Where Condo Name = ";
                 break;
-            case CATEGORY:
+            case PROPERTY_TYPE:
                 entry = "Where Category = ";
                 break;
         }
@@ -632,9 +666,9 @@ public class Model {
                 rulesData.put(selectedReport, arrArr);
             } else if (entry.contains("Category")) {
                 entry = entry.substring(entry.indexOf("=") + 2, entry.length());
-                arrStr = arrArr.remove(CATEGORY);
+                arrStr = arrArr.remove(PROPERTY_TYPE);
                 arrStr.remove(entry);
-                arrArr.add(CATEGORY, arrStr);
+                arrArr.add(PROPERTY_TYPE, arrStr);
                 rulesData.put(selectedReport, arrArr);
             }
         }
@@ -767,7 +801,7 @@ public class Model {
                             (arrArr.get(ZIP_CODE).isEmpty() || arrArr.get(ZIP_CODE).contains(splitDataEntry[10])) && 
                             (arrArr.get(BODY_OF_WATER).isEmpty() || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[12])) &&
                             (arrArr.get(CONDO_NAME).isEmpty() || arrArr.get(CONDO_NAME).contains(splitDataEntry[13])) && 
-                            (arrArr.get(CATEGORY).isEmpty() || arrArr.get(CATEGORY).contains(splitDataEntry[2]))) {
+                            (arrArr.get(PROPERTY_TYPE).isEmpty() || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[2]))) {
 
                         double soldPrice = Double.parseDouble(splitDataEntry[6]);
 
@@ -858,8 +892,8 @@ public class Model {
                             || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[12]))
                             && (arrArr.get(CONDO_NAME).isEmpty()
                             || arrArr.get(CONDO_NAME).contains(splitDataEntry[13]))
-                            && (arrArr.get(CATEGORY).isEmpty()
-                            || arrArr.get(CATEGORY).contains(splitDataEntry[2]))) {
+                            && (arrArr.get(PROPERTY_TYPE).isEmpty()
+                            || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[2]))) {
 
                         // Grab sold price and increment one of the ranges.
                         double soldPrice = Double.parseDouble(splitDataEntry[6]);
@@ -990,7 +1024,7 @@ public class Model {
                 fw.write(arrRule.get(i) + ", ");
         }
         
-        arrRule = arr.get(CATEGORY); 
+        arrRule = arr.get(PROPERTY_TYPE); 
         fw.write("Where Category =,");
         if(arrRule.size() == 0) 
             fw.write("ANY\n");
