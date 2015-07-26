@@ -82,6 +82,19 @@ public class Model {
     private static int bodyOfWater;
     private static int condominiumName;
     
+    final int ARR_LISTING_COMPANY_NAME = 0;
+    final int ARR_PROPERTY_TYPE = 1;
+    final int ARR_DAYS_ON_MARKET = 2;
+    final int ARR_SOLD_DATE = 3;
+    final int ARR_LIST_PRICE = 4;
+    final int ARR_SOLD_PRICE = 5; 
+    final int ARR_MUNICIPALITY = 6;
+    final int ARR_COUNTY = 7;
+    final int ARR_ZIP_CODE = 8;
+    final int ARR_SELLING_COMPANY_NAME = 9;
+    final int ARR_BODY_OF_WATER = 10;
+    final int ARR_CONDO_NAME = 11;
+    
     /**
      * Adds to the arrays that will populate the "equals" JComboBox.
      *
@@ -277,7 +290,7 @@ public class Model {
             } else {
                 arr = new ArrayList<>();
             }
-
+                    
             // Reassemble only the relevant data for the entry back into a 
             // string and add it to the ArrayList whose key is the date of
             // the entry.            
@@ -697,9 +710,9 @@ public class Model {
      *
      * @param quarter The selected quarter.
      */
-    public void generateReports(int quarter) throws IOException {
+    public void generateReports(int quarter, int baseYear) throws IOException {
         for (String report : rulesData.keySet()) {
-            generateReport(quarter, report);
+            generateReport(quarter, report, baseYear);
         }
     }
 
@@ -710,7 +723,7 @@ public class Model {
      * @param report The report to generate.
      * @throws IOException
      */
-    private void generateReport(int quarter, String report) throws IOException {
+    private void generateReport(int quarter, String report, int baseYear) throws IOException {
 
         // Grab the rules to generate the report.
         ArrayList<ArrayList<String>> arrArr = rulesData.get(report);
@@ -725,7 +738,7 @@ public class Model {
         String date = "";
 
         // Get the current year and the previous year.
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR) - 1;
+        int currentYear = baseYear;
         int previousYear = currentYear - 1;
 
         // Hold the count for sold properties within a given range within a
@@ -796,14 +809,14 @@ public class Model {
                     // "equals" for any "where". If there are no "equals"
                     // for a given "where", then that particular "where"
                     // does not factor into the statement.
-                    if ((arrArr.get(COUNTY).isEmpty() || arrArr.get(COUNTY).contains(splitDataEntry[9])) && 
-                            (arrArr.get(MUNICIPALITY).isEmpty() || arrArr.get(MUNICIPALITY).contains(splitDataEntry[7])) && 
-                            (arrArr.get(ZIP_CODE).isEmpty() || arrArr.get(ZIP_CODE).contains(splitDataEntry[10])) && 
-                            (arrArr.get(BODY_OF_WATER).isEmpty() || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[12])) &&
-                            (arrArr.get(CONDO_NAME).isEmpty() || arrArr.get(CONDO_NAME).contains(splitDataEntry[13])) && 
-                            (arrArr.get(PROPERTY_TYPE).isEmpty() || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[2]))) {
+                    if ((arrArr.get(COUNTY).isEmpty() || arrArr.get(COUNTY).contains(splitDataEntry[ARR_COUNTY])) && 
+                            (arrArr.get(MUNICIPALITY).isEmpty() || arrArr.get(MUNICIPALITY).contains(splitDataEntry[ARR_MUNICIPALITY])) && 
+                            (arrArr.get(ZIP_CODE).isEmpty() || arrArr.get(ZIP_CODE).contains(splitDataEntry[ARR_ZIP_CODE])) && 
+                            (arrArr.get(BODY_OF_WATER).isEmpty() || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[ARR_BODY_OF_WATER])) &&
+                            (arrArr.get(CONDO_NAME).isEmpty() || arrArr.get(CONDO_NAME).contains(splitDataEntry[ARR_CONDO_NAME])) && 
+                            (arrArr.get(PROPERTY_TYPE).isEmpty() || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[ARR_PROPERTY_TYPE]))) {
 
-                        double soldPrice = Double.parseDouble(splitDataEntry[6]);
+                        double soldPrice = Double.parseDouble(splitDataEntry[ARR_SOLD_PRICE]);
 
                         // Grab sold price and increment one of the ranges.
                         if (soldPrice <= 59999) {
@@ -832,10 +845,10 @@ public class Model {
 
                         // [11] is reserved for the sum of properties sold by 
                         // COMPANY +the sum of properties listed by COMPANY.
-                        if(splitDataEntry[0].contains(companyProperty)) {
+                        if(splitDataEntry[ARR_LISTING_COMPANY_NAME].contains(companyProperty)) {
                             currentYearStats[j][11] += 1;
                         }
-                        if(splitDataEntry[11].contains(companyProperty)) {
+                        if(splitDataEntry[ARR_SELLING_COMPANY_NAME].contains(companyProperty)) {
                             currentYearStats[j][11] += 1;
                         }
                         
@@ -883,20 +896,20 @@ public class Model {
                     // for a given "where", then that particular "where"
                     // does not factor into the statement.
                     if ((arrArr.get(COUNTY).isEmpty()
-                            || arrArr.get(COUNTY).contains(splitDataEntry[9]))
+                            || arrArr.get(COUNTY).contains(splitDataEntry[ARR_COUNTY]))
                             && (arrArr.get(MUNICIPALITY).isEmpty()
-                            || arrArr.get(MUNICIPALITY).contains(splitDataEntry[7]))
+                            || arrArr.get(MUNICIPALITY).contains(splitDataEntry[ARR_MUNICIPALITY]))
                             && (arrArr.get(ZIP_CODE).isEmpty()
-                            || arrArr.get(ZIP_CODE).contains(splitDataEntry[10]))
+                            || arrArr.get(ZIP_CODE).contains(splitDataEntry[ARR_ZIP_CODE]))
                             && (arrArr.get(BODY_OF_WATER).isEmpty()
-                            || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[12]))
+                            || arrArr.get(BODY_OF_WATER).contains(splitDataEntry[ARR_BODY_OF_WATER]))
                             && (arrArr.get(CONDO_NAME).isEmpty()
-                            || arrArr.get(CONDO_NAME).contains(splitDataEntry[13]))
+                            || arrArr.get(CONDO_NAME).contains(splitDataEntry[ARR_CONDO_NAME]))
                             && (arrArr.get(PROPERTY_TYPE).isEmpty()
-                            || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[2]))) {
+                            || arrArr.get(PROPERTY_TYPE).contains(splitDataEntry[ARR_PROPERTY_TYPE]))) {
 
                         // Grab sold price and increment one of the ranges.
-                        double soldPrice = Double.parseDouble(splitDataEntry[6]);
+                        double soldPrice = Double.parseDouble(splitDataEntry[ARR_SOLD_PRICE]);
 
                         if (soldPrice <= 59999) {
                             previousYearStats[j][0] += 1;
@@ -924,10 +937,10 @@ public class Model {
 
                         // [11] is reserved for the sum of properties sold by 
                         // COMPANY +the sum of properties listed by COMPANY.
-                        if(splitDataEntry[0].contains(companyProperty)) {
+                        if(splitDataEntry[ARR_LISTING_COMPANY_NAME].contains(companyProperty)) {
                             previousYearStats[j][11] += 1;
                         }
-                        if(splitDataEntry[11].contains(companyProperty)) {
+                        if(splitDataEntry[ARR_SELLING_COMPANY_NAME].contains(companyProperty)) {
                             previousYearStats[j][11] += 1;
                         }
                         
@@ -1342,7 +1355,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][0];
             sumPreviousYear += previousYearStats[j][0];
         }
-        fw.write("0-59999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("0-59999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1352,7 +1365,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][1];
             sumPreviousYear += previousYearStats[j][1];
         }
-        fw.write("60000-99999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("60000-99999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1362,7 +1375,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][2];
             sumPreviousYear += previousYearStats[j][2];
         }
-        fw.write("100000-149999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("100000-149999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1372,7 +1385,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][3];
             sumPreviousYear += previousYearStats[j][3];
         }
-        fw.write("150000-199999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("150000-199999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1382,7 +1395,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][4];
             sumPreviousYear += previousYearStats[j][4];
         }
-        fw.write("200000-249999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("200000-249999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1392,7 +1405,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][5];
             sumPreviousYear += previousYearStats[j][5];
         }
-        fw.write("250000-299999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("250000-299999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1402,7 +1415,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][6];
             sumPreviousYear += previousYearStats[j][6];
         }
-        fw.write("300000-399999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("300000-399999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1412,7 +1425,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][7];
             sumPreviousYear += previousYearStats[j][7];
         }
-        fw.write("400000-499999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("400000-499999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1422,7 +1435,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][8];
             sumPreviousYear += previousYearStats[j][8];
         }
-        fw.write("500000-749999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("500000-749999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1432,7 +1445,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][9];
             sumPreviousYear += previousYearStats[j][9];
         }
-        fw.write("750000-999999," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("750000-999999," + sumPreviousYear + "," + sumCurrentYear);
         sumCurrentYear = 0;
         sumPreviousYear = 0;
         fw.write("\n");
@@ -1442,7 +1455,7 @@ public class Model {
             sumCurrentYear += currentYearStats[j][10];
             sumPreviousYear += previousYearStats[j][10];
         }
-        fw.write("'1000000+," + sumCurrentYear + "," + sumPreviousYear);
+        fw.write("'1000000+," + sumPreviousYear + "," + sumCurrentYear);
         
         fw.write("\n\n\n");
         
