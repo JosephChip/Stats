@@ -193,18 +193,18 @@ public class Model {
         
         // Set default properties    
         prop.setProperty("company", "MyCompany");
-        prop.setProperty("Agency Name", "1");
-        prop.setProperty("Property Type", "6");
-        prop.setProperty("Days on Market", "134");
-        prop.setProperty("Sold Date", "14");
-        prop.setProperty("List Price", "25");
-        prop.setProperty("Sold Price", "42");
-        prop.setProperty("Municipality", "41");
-        prop.setProperty("County", "43");
-        prop.setProperty("Zip Code", "46");
-        prop.setProperty("Selling Agency", "9");
-        prop.setProperty("Body of Water", "66");
-        prop.setProperty("Condominium Name", "58");
+        prop.setProperty("Agency Name", "2");
+        prop.setProperty("Property Type", "7");
+        prop.setProperty("Days on Market", "135");
+        prop.setProperty("Sold Date", "15");
+        prop.setProperty("List Price", "26");
+        prop.setProperty("Sold Price", "43");
+        prop.setProperty("Municipality", "42");
+        prop.setProperty("County", "44");
+        prop.setProperty("Zip Code", "47");
+        prop.setProperty("Selling Agency", "10");
+        prop.setProperty("Body of Water", "67");
+        prop.setProperty("Condominium Name", "59");
         
         // Save the data
         prop.store(output, null);
@@ -222,20 +222,20 @@ public class Model {
         // Load the properties file.
         prop.load(input);
         
-        // Load the values in
+        // Load the values in. -1 to account for zero-based array.
         companyProperty = prop.getProperty("company");
-        agencyName = Integer.parseInt(prop.getProperty("Agency Name"));
-        propertyType = Integer.parseInt(prop.getProperty("Property Type"));
-        daysOnMarket = Integer.parseInt(prop.getProperty("Days on Market"));
-        soldDate = Integer.parseInt(prop.getProperty("Sold Date"));
-        listPrice = Integer.parseInt(prop.getProperty("List Price"));
-        soldPrice = Integer.parseInt(prop.getProperty("Sold Price"));
-        municipality = Integer.parseInt(prop.getProperty("Municipality"));
-        county = Integer.parseInt(prop.getProperty("County"));
-        zipCode = Integer.parseInt(prop.getProperty("Zip Code"));
-        sellingAgency = Integer.parseInt(prop.getProperty("Selling Agency"));
-        bodyOfWater = Integer.parseInt(prop.getProperty("Body of Water"));
-        condominiumName = Integer.parseInt(prop.getProperty("Condominium Name"));
+        agencyName = Integer.parseInt(prop.getProperty("Agency Name")) - 1;
+        propertyType = Integer.parseInt(prop.getProperty("Property Type")) - 1;
+        daysOnMarket = Integer.parseInt(prop.getProperty("Days on Market")) - 1;
+        soldDate = Integer.parseInt(prop.getProperty("Sold Date")) - 1;
+        listPrice = Integer.parseInt(prop.getProperty("List Price")) - 1;
+        soldPrice = Integer.parseInt(prop.getProperty("Sold Price")) - 1;
+        municipality = Integer.parseInt(prop.getProperty("Municipality")) - 1;
+        county = Integer.parseInt(prop.getProperty("County")) - 1;
+        zipCode = Integer.parseInt(prop.getProperty("Zip Code")) - 1;
+        sellingAgency = Integer.parseInt(prop.getProperty("Selling Agency")) - 1;
+        bodyOfWater = Integer.parseInt(prop.getProperty("Body of Water")) - 1;
+        condominiumName = Integer.parseInt(prop.getProperty("Condominium Name")) - 1;
     }
     
     /**
