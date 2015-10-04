@@ -30,7 +30,7 @@ public class FrameMain extends javax.swing.JFrame {
         statsGUI1 = new Stats.PanelMain();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Keefe Reports Manager");
+        setTitle("Reports Manager");
         setBackground(new java.awt.Color(54, 124, 43));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);

@@ -194,17 +194,17 @@ public class Model {
         // Set default properties    
         prop.setProperty("company", "MyCompany");
         prop.setProperty("Agency Name", "2");
-        prop.setProperty("Property Type", "7");
-        prop.setProperty("Days on Market", "135");
-        prop.setProperty("Sold Date", "15");
-        prop.setProperty("List Price", "26");
-        prop.setProperty("Sold Price", "43");
-        prop.setProperty("Municipality", "42");
-        prop.setProperty("County", "44");
-        prop.setProperty("Zip Code", "47");
-        prop.setProperty("Selling Agency", "10");
-        prop.setProperty("Body of Water", "67");
-        prop.setProperty("Condominium Name", "59");
+        prop.setProperty("Selling Agency", "3");
+        prop.setProperty("Property Type", "4");
+//        prop.setProperty("Days on Market", "135");
+        prop.setProperty("Sold Date", "6");
+        prop.setProperty("List Price", "7");
+        prop.setProperty("Sold Price", "8");
+        prop.setProperty("Municipality", "9");
+        prop.setProperty("County", "10");
+        prop.setProperty("Zip Code", "11");
+        prop.setProperty("Body of Water", "12");
+        prop.setProperty("Condominium Name", "13");
         
         // Save the data
         prop.store(output, null);
@@ -225,15 +225,15 @@ public class Model {
         // Load the values in. -1 to account for zero-based array.
         companyProperty = prop.getProperty("company");
         agencyName = Integer.parseInt(prop.getProperty("Agency Name")) - 1;
+        sellingAgency = Integer.parseInt(prop.getProperty("Selling Agency")) - 1;
         propertyType = Integer.parseInt(prop.getProperty("Property Type")) - 1;
-        daysOnMarket = Integer.parseInt(prop.getProperty("Days on Market")) - 1;
+//        daysOnMarket = Integer.parseInt(prop.getProperty("Days on Market")) - 1;
         soldDate = Integer.parseInt(prop.getProperty("Sold Date")) - 1;
         listPrice = Integer.parseInt(prop.getProperty("List Price")) - 1;
         soldPrice = Integer.parseInt(prop.getProperty("Sold Price")) - 1;
         municipality = Integer.parseInt(prop.getProperty("Municipality")) - 1;
         county = Integer.parseInt(prop.getProperty("County")) - 1;
         zipCode = Integer.parseInt(prop.getProperty("Zip Code")) - 1;
-        sellingAgency = Integer.parseInt(prop.getProperty("Selling Agency")) - 1;
         bodyOfWater = Integer.parseInt(prop.getProperty("Body of Water")) - 1;
         condominiumName = Integer.parseInt(prop.getProperty("Condominium Name")) - 1;
     }
@@ -1108,7 +1108,7 @@ public class Model {
         }
 
         fw.write("\n");
-
+        
         // Print stats for 0-59999.
         for (int j = startMonth; j <= endMonth; j++) {
 

@@ -330,8 +330,9 @@ public class PanelMain extends javax.swing.JPanel {
             // Use a pop-up to inform a user that the report could not be 
             // generated.
             JOptionPane.showMessageDialog(null,
-                "An error occured while attempting to generate reports.",
-                "Generating Report Error",
+                "An error occured while attempting to generate reports:\n" 
+                        + ex.getMessage(),
+                "Generating Report Error:",
                 JOptionPane.ERROR_MESSAGE);
             
             // Inform user that report generating was unsuccesfull.
