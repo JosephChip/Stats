@@ -268,55 +268,67 @@ public class Model {
         // Skip header of file.
         br.readLine();
 
+        int lineNumber = 0;
+        
+        
         // Keep reading lines until there is nothing to read.
         while ((line = br.readLine()) != null) {
 
-            // Whenever a comma is found, read forward to make sure that there
-            // is either an even amount of quotes or no quotes at all. This
-            // ensures that commas inside of quotes are not split.
-            splitLine = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-            // Pass the municipality and county.
-            addMunicipalityAndCounty(
-                    splitLine[municipality].replaceAll("\"", ""),
-                    splitLine[county].replaceAll("\"", ""));
-
-            String date = cleanDate(
-                    splitLine[soldDate].replaceAll("\"", ""));
-
-            // Use mm/yyyy as key.
-            if (data.containsKey(date)) {
-                arr = data.get(date);
-            } else {
-                arr = new ArrayList<>();
-            }
-                    
-            // Reassemble only the relevant data for the entry back into a 
-            // string and add it to the ArrayList whose key is the date of
-            // the entry.            
-            arr.add(splitLine[agencyName] + "," +                         // Listing Company Name- 0
-                    splitLine[propertyType].replaceAll("\"", "") + "," +  // Property Type       - 1
-                    splitLine[daysOnMarket].replaceAll("\"", "") + "," +  // DOM                 - 2
-                    date + "," +                                          // Sold Date           - 3
-                    splitLine[listPrice].replaceAll("\"", "") + "," +     // List Price          - 4
-                    splitLine[soldPrice].replaceAll("\"", "") + "," +     // Sold Price          - 5
-                    splitLine[municipality].replaceAll("\"", "") + "," +  // Municipality        - 6
-                    splitLine[county].replaceAll("\"", "") + "," +        // County              - 7
-                    splitLine[zipCode].replaceAll("\"", "") + "," +       // Zip Code            - 8
-                    splitLine[sellingAgency] + "," +                      // Selling Company Name- 9
-                    splitLine[bodyOfWater].replaceAll("\"", "") + "," +   // Body of Water       - 10
-                    splitLine[condominiumName].replaceAll("\"", ""));     // Condo Name          - 11
-            data.put(date, arr);
+            lineNumber++;
             
-            // Add them to the "equals" dropbox for later use.
-            addToEqualsDropdown(COUNTY, splitLine[county].replaceAll("\"", ""));
-            addToEqualsDropdown(MUNICIPALITY, splitLine[municipality].replaceAll("\"", ""));
-            addToEqualsDropdown(ZIP_CODE, splitLine[zipCode].replaceAll("\"", ""));
-            addToEqualsDropdown(BODY_OF_WATER, splitLine[bodyOfWater].replaceAll("\"", ""));
-            addToEqualsDropdown(CONDO_NAME, splitLine[condominiumName].replaceAll("\"", ""));
-            addToEqualsDropdown(PROPERTY_TYPE, splitLine[propertyType].replaceAll("\"", ""));
-        }
+            // TODO: Line read errors should be descriptive for user rather
+            // than just skipping the line.
+            try {
+                // Whenever a comma is found, read forward to make sure that there
+                // is either an even amount of quotes or no quotes at all. This
+                // ensures that commas inside of quotes are not split.
+                splitLine = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                
+                // Pass the municipality and county.
+                addMunicipalityAndCounty(
+                        splitLine[municipality].replaceAll("\"", ""),
+                        splitLine[county].replaceAll("\"", ""));
+                
+                String date = cleanDate(
+                        splitLine[soldDate].replaceAll("\"", ""));
 
+                // Use mm/yyyy as key.
+                if (data.containsKey(date)) {
+                    arr = data.get(date);
+                } else {
+                    arr = new ArrayList<>();
+                }
+
+                // Reassemble only the relevant data for the entry back into a 
+                // string and add it to the ArrayList whose key is the date of
+                // the entry.            
+                arr.add(splitLine[agencyName] + "," +                         // Listing Company Name- 0
+                        splitLine[propertyType].replaceAll("\"", "") + "," +  // Property Type       - 1
+                        splitLine[daysOnMarket].replaceAll("\"", "") + "," +  // DOM                 - 2
+                        date + "," +                                          // Sold Date           - 3
+                        splitLine[listPrice].replaceAll("\"", "") + "," +     // List Price          - 4
+                        splitLine[soldPrice].replaceAll("\"", "") + "," +     // Sold Price          - 5
+                        splitLine[municipality].replaceAll("\"", "") + "," +  // Municipality        - 6
+                        splitLine[county].replaceAll("\"", "") + "," +        // County              - 7
+                        splitLine[zipCode].replaceAll("\"", "") + "," +       // Zip Code            - 8
+                        splitLine[sellingAgency] + "," +                      // Selling Company Name- 9
+                        splitLine[bodyOfWater].replaceAll("\"", "") + "," +   // Body of Water       - 10
+                        splitLine[condominiumName].replaceAll("\"", ""));     // Condo Name          - 11
+                data.put(date, arr);
+
+                // Add them to the "equals" dropbox for later use.
+                addToEqualsDropdown(COUNTY, splitLine[county].replaceAll("\"", ""));
+                addToEqualsDropdown(MUNICIPALITY, splitLine[municipality].replaceAll("\"", ""));
+                addToEqualsDropdown(ZIP_CODE, splitLine[zipCode].replaceAll("\"", ""));
+                addToEqualsDropdown(BODY_OF_WATER, splitLine[bodyOfWater].replaceAll("\"", ""));
+                addToEqualsDropdown(CONDO_NAME, splitLine[condominiumName].replaceAll("\"", ""));
+                addToEqualsDropdown(PROPERTY_TYPE, splitLine[propertyType].replaceAll("\"", ""));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage() + " at line " + lineNumber + ":");
+                System.out.println(line);
+            }
+        }
+        
         // Sort after all of the data has been entered.
         sortAlphabetically(countiesAndMunicipalities);
         sortEqualsDropdownArrays();
@@ -429,7 +441,11 @@ public class Model {
      * @return The cleaned string.
      */
     public String cleanInput(String str) {
-
+        
+        if (str.isEmpty()) {
+            return str;
+        }
+        
         // Change first letter to uppercase and the rest to lowercase.
         str = str.toLowerCase();
         str = str.substring(0, 1).toUpperCase()
